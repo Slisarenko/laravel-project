@@ -1,0 +1,46 @@
+GetAll:
+  type: "object"
+  properties:
+    data:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            example: "1"
+          title:
+            type: "string"
+            example: "Title of hobby"
+          description:
+            type: "string"
+            example: "Hobby description"
+Get:
+  type: "object"
+  properties:
+    data:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: "1"
+        title:
+          type: "string"
+          example: "Title of hobby"
+        description:
+          type: "string"
+          example: "Hobby description"
+Edit:
+  type: "object"
+  properties:
+    data:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          title:
+            type: "string"
+            example: "Title of hobby"
+          description:
+            type: "string"
+            example: "Hobby description"

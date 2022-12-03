@@ -1,0 +1,336 @@
+swagger: "2.0"
+info:
+  description: "
+    `This is an example of API documentation, you MUST follow the next rules: https://jsonapi.org`<br><br>
+    [Document Structure](https://jsonapi.org/format/#document-structure)<br>
+    [Top Level](https://jsonapi.org/format/#document-top-level)<br>
+    [Resource Objects](https://jsonapi.org/format/#document-resource-objects)<br>
+    [Error Objects](https://jsonapi.org/format/#errors)<br>
+  "
+  version: "1.0.0"
+  title: "Laravel API"
+basePath: "/api/v1"
+schemes:
+  - "http"
+  - "https"
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - bearerAuth: []
+paths:
+  /create:
+    post:
+      tags:
+        - "Auth"
+      summary: "Create user"
+      operationId: "createUser"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Create user"
+          required: true
+          schema:
+            $ref: "./swagger/user/user.yaml#Create"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/response/id.yaml#Id"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+  /login:
+    post:
+      tags:
+        - "Auth"
+      summary: "Login with email and password"
+      operationId: "authWithCredential"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "email"
+          in: "formData"
+          description: "User email"
+          required: true
+          type: "string"
+        - name: "password"
+          in: "formData"
+          description: "User password"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/response/id.yaml#Id"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+  /users/{id}:
+    get:
+      tags:
+        - "User"
+      summary: "Get user information by id"
+      operationId: "getUserById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to get"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/user/user.yaml#Get"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+    put:
+      tags:
+        - "User"
+      summary: "Create user"
+      operationId: "createUser"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to get"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "body"
+          in: "body"
+          description: "Create user"
+          required: true
+          schema:
+            $ref: "./swagger/user/user.yaml#Put"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/response/id.yaml#Id"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+    delete:
+      tags:
+        - "User"
+      summary: "Delete user information by id"
+      operationId: "deleteUserById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to delete"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "body"
+          in: "body"
+          description: "Use force delete? \n
+          Value can be: [1 or 0]
+          "
+          required: true
+          schema:
+            $ref: "./swagger/user/user.yaml#Delete"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/response/success.yaml#200"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+  /users:
+    get:
+      tags:
+        - "User"
+      summary: "Get users"
+      operationId: "getUsers"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "filter"
+          in: "query"
+          required: false
+          type: "string"
+          example: '{"createdAt":"1970-01-01"}'
+        - name: "limit"
+          in: "query"
+          required: false
+          type: "integer"
+          format: "int64"
+        - name: "page"
+          in: "query"
+          required: false
+          type: "integer"
+          format: "int64"
+        - name: "sortField"
+          in: "query"
+          description: "Sort values that need to be considered for filter"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+            enum:
+              - "id"
+              - "email"
+        - name: "sortOrder"
+          in: "query"
+          description: "Sort values that need to be considered for filter"
+          required: false
+          type: "array"
+          items:
+            type: "string"
+            enum:
+              - "asc"
+              - "desc"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/user/users.yaml#Get"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+  /hobbies/{id}:
+    get:
+      tags:
+        - "Hobby"
+      summary: "Get hobby information by id"
+      operationId: "getHobbyById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to get"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/hobby/hobbies.yaml#Get"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+    put:
+      tags:
+        - "Hobby"
+      summary: "Edit hobby"
+      operationId: "editHobby"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of hobby to get"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "body"
+          in: "body"
+          description: "Update hobby"
+          required: true
+          schema:
+            $ref: "./swagger/hobby/hobbies.yaml#Get"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/response/success.yaml#200"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+    delete:
+      tags:
+        - "Hobby"
+      summary: "Delete hobby information by id"
+      operationId: "deleteHobbyById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of hobby to delete"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/response/success.yaml#200"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+  /users/{id}/hobbies:
+    get:
+      tags:
+        - "Hobby"
+      summary: "Get hobbies by user"
+      operationId: "getHobbiesByUser"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to get"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/hobby/hobbies.yaml#GetAll"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"
+  /hobbies:
+    get:
+      tags:
+        - "Hobby"
+      summary: "Get hobbies"
+      operationId: "getHobbies"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of user to get"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "./swagger/hobby/hobbies.yaml#GetAll"
+        "422":
+          description: "Unprocessable Entity"
+          schema:
+            $ref: "./swagger/response/validation.yaml#ValidationError"

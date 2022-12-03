@@ -1,0 +1,68 @@
+image: hub.gitlab.nixdev.co/slisarenko/laravel-docker-ci-psql-php8.0:latest
+
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  untracked: true
+  paths:
+    - ~/.composer/cache
+    - vendor/
+
+before_script:
+  - sleep 1s
+  - cp .env.gitlab-ci .env
+  - cp .env.gitlab-ci .env.testing
+  - composer install
+
+variables:
+  POSTGRES_USER: default
+  POSTGRES_DB: default
+  POSTGRES_PASSWORD: secret
+  POSTGRES_PORT: 5432
+  WITH_XDEBUG: "1"
+  APP_ENV: testing
+
+stages:
+  - composer-validate
+  - migrations
+  - phpcs
+  - security-check
+  - test
+
+composer:validate:
+  stage: composer-validate
+  script:
+    - composer validate
+
+migrations:
+  stage: migrations
+  services:
+    - name: postgis/postgis:12-master
+  script:
+    - php artisan config:clear
+    - sleep 1
+    - composer db:migrations:up
+    - composer db:migrations:down
+  allow_failure: true
+
+phpcs:
+  stage: phpcs
+  script:
+    - composer phpcs
+
+security:check:
+  stage: security-check
+  script:
+    - composer security:check
+  allow_failure: true
+
+codeception:
+  stage: test
+  services:
+    - name: postgis/postgis:12-master
+  script:
+    - php artisan config:clear
+    - composer db:migrations:up
+    - composer db:seed
+    - php vendor/bin/codecept build
+    - composer test

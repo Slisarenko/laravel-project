@@ -1,0 +1,12 @@
+/public/js/*
+/public/css/*
+/public/img/*
+/public/images/*
+/public/mix-manifest.json
+
+/node_modules
+/public/.htaccess
+/vendor
+.env
+npm-debug.log
+/.idea/

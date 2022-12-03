@@ -1,0 +1,84 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "kreait/laravel-firebase": "^3.1",
+        "laravel/framework": "^8.12",
+        "laravel/tinker": "^2.5",
+        "santigarcor/laratrust": "^6.3",
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-laravel5": "^1.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-rest": "^1.0.0",
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.2",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.3.3"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        },
+        "classmap": [
+            "database/seeders",
+            "database/factories"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "phpcs": "php vendor/bin/phpcs",
+        "test": [
+            "php artisan --env=testing migrate:refresh",
+            "php artisan --env=testing db:seed",
+            "php vendor/bin/codecept run api --env=testing"
+        ],
+        "db:migrations:up": "php artisan migrate",
+        "db:migrations:down": "php artisan migrate:reset",
+        "db:seed": "php artisan db:seed",
+        "cpd:check": "php vendor/bin/phpcpd app/"
+    }
+}

@@ -1,0 +1,14 @@
+ValidationError:
+  type: "object"
+  properties:
+    data:
+      type: "object"
+      example:
+        []
+    errors:
+      type: "object"
+      properties:
+        someField:
+          type: "array"
+          example:
+            - "Validation error description"

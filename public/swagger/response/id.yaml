@@ -1,0 +1,9 @@
+Id:
+  type: "object"
+  properties:
+    data:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: "1"
